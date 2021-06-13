@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form submit="handleSubmit">
+        <input name="img" type="file">
+        <input name="quality" type="text">
+        <input value="vai" type="submit">
+    </form>
+    <img src="">
+    <script type="text/javascript">
+
+        async function handleSubmit(e) {
+
+            console.log('raaaaaaaaa');
+
+            e.preventDefault()
+            let formData = new FormData(e.target);
+
+            let response = await fetch('http://127.0.0.1:8000/compress/', {
+                method: 'POST',
+                body: formData,
+                header: {
+                    Accept: 'image/*'
+                }
+            })
+
+            let data = await response.blob();
+            console.log(data);
+
+            var imageUrl = URL.createObjectURL(data);
+            document.querySelector("img").src = imageUrl;
+        }
+
+        document.querySelector("form").addEventListener('submit', handleSubmit);
+
+    </script>
+</body>
+
+
+</html>
